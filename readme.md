@@ -180,13 +180,13 @@ Congratulations! If you made it through all commands, then you are an advanced l
 Our goal is to intersect the coordinates of COSMIC mutations with genes. For simplicity, we will focus on chromosome 17. From UCSC Genome Browser, Table Browser, we have downloaded the bed file with the COSMIC information. To get this, run:
 
 ```
-wget https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/cosmicMuts_chr17.bed.gz
+wget https://github.com/atelonis/BioinformaticsExercises/blob/main/cosmicMuts_chr17.bed.gz
 ```
 
 or
 
 ```
-curl -O -L https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/cosmicMuts_chr17.bed.gz -o cosmicMuts_chr17.bed.gz
+curl -O -L https://github.com/atelonis/BioinformaticsExercises/blob/main/cosmicMuts_chr17.bed.gz -o cosmicMuts_chr17.bed.gz
 ```
 
 
