@@ -35,13 +35,13 @@ The command can be something like 'wc' (for Word Count), argument(s) are used to
 
 Download the file:
 ```
-wget https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/mart_export.txt.gz
+wget https://github.com/atelonis/BioinformaticsExercises/blob/main/mart_export.txt.gz
 ```
 
 or
 
 ```
-curl -O -L https://github.com/ceccarellilab/CancerBioinformaticsCourse/raw/refs/heads/main/Biological%20DB%20\(Aris\)/mart_export.txt.gz -o mart_export.txt.gz
+curl -O -L https://github.com/atelonis/BioinformaticsExercises/blob/main/mart_export.txt.gz -o mart_export.txt.gz
 ```
 
 
