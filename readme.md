@@ -104,7 +104,7 @@ _Now, by getting the appropriate columns, sorting, filtering out repeated entrie
     18.1) How many of them are duplicates? (hint: look at uniq's manual, answer is 21718)
     18.1) How many of them have the letter A?
 
-19) Get the gene IDs (column 1) of all the mitochondrial tRNAs (Mt_tRNA) and save them to a file.
+19) Get the gene IDs of all the mitochondrial tRNAs (Mt_tRNA) and save them to a file.
 
 _Hints: build your pipe as you have learned already and to save the output in a file write "> mt_tRNA_IDs.txt" at the end. ">" tells bash to redirect the output not on the screen but on file named "proteinCodingIDs.txt". See the first ten lines and count the number of lines to make sure you got it right._
 
