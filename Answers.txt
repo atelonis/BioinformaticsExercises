@@ -106,32 +106,57 @@ cat mart_export.txt | cut -f7 | sort | uniq | grep "A.2" | wc -l
 
 
 ==================
+
 === Exercise 2 ===
 
-### Step 1 | Make a bed file containing coding genes, with the correct chromosome names. The way we make this file contains the coordinates of the transcripts, which means that when we intersect with the COSMIC entries, there will be duplicates, ie the same mutation returned multiple times (since transcripts overlap). We need to keep this in mind.
+### 5
+cat Align_Mt_tRNAgenes.txt | wc -l
 
-cat mart_export.txt | grep protein_coding | cut -f 1,2,3,6,7 | awk '$1==17 {print "chr"$1,$2,$3,$4"|"$5}' | tr ' ' '\t' | sort | uniq > CodingGenes.bed
+### 6
+cat Align_Mt_tRNAgenes.txt | cut -f3 | sort | uniq -c
 
-### Step 2 | Intersect the genomic coordinates with the COSMIC entries. Bedtools intersect treats each line independently.
+### 7 
+cat Align_Mt_tRNAgenes.txt | awk '$4>90' | wc -l
 
-bedtools intersect -a CodingGenes.bed -b cosmicMuts_chr17.bed -wa -wb > BI.Genes.Cosmic.txt
+### 8
+cat Align_Mt_tRNAgenes.txt | awk '$4>90' | awk '$5>=$2-2' | wc -l
+cat Align_Mt_tRNAgenes.txt | awk '$4>90' | awk '$5>=$2-2' | sort -k3
+There are 6 perfect matches of Mt tRNAs on chromosome 1
+There are 22 perfect alignments on Mt chromosome, which are expected to find
+
+### 9
+cat Align_Mt_tRNAgenes.txt | awk '$4>75' | awk '$5>=$2-2' | grep chr1 | sort -k10n
+There seems to be two hotspots on chromosome 1: one between positions 629,433 and 633,533 and one between positions 237,941,074 and 237,951,543.
+If start > end, it means that the alignment is on the negative strand of the DNA.
+
+### 10
+cat Align_Mt_tRNAgenes.txt | awk '$4>75' | awk '$5>=$2-2' | grep chr1 | awk '$10<$11' | awk '{print $3,$10-1,$11,$1}' | tr ' ' '\t' > onChr1.bed
+
+### 11
+gtRNAdb reports 4 nuclear mitochondrial tRNAs on chromosome 1 and 3 of them are reported in our alignments. In fact, the alignments found even with 100% sequence similarity in region 629432-633533 are missed by tRNAscan-SE (the algorithm that looks for tRNAs). The reason mainly being the differences on the folding. The algorithm relies on predictions on forming the D, T and anticodon loops; mitochondrial tRNAs are more compact and not easily predicted as for nuclear tRNAs. As such, these sequences on nuclear chromosomes are harder to find. 
+
+### 12
+cat onChr1.bed nuclear_tRNAs.bed.txt | cut -f 1,2,3,4 | awk '$1=="chr1"' | sort -k1,1 -k2,2n > forMerging.bed
+
+### 13
+cat Merged.txt | grep ENSG | wc -l
+
+### 14
+cat Clustered.bed | cut -f5 | sort | uniq | wc -l
+cat Clustered.bed | cut -f5 | sort | uniq -c | sort -n | tail -n1
+   This should return " 23 82", which means that the most populous cluster is cluster 82 with 23 members
+cat Clustered.bed | grep ENSG | cut -f 5 | sort | uniq -c | sort -n
+
+### 15
+cat mart_export.txt | awk '{print "chr"$1,$2,$3,$4"|"$6"|"$7}' | grep ENSG | tr ' ' '\t' > genes.bed
+bedtools2/bin/bedtools intersect -a onChr1.bed -b genes.bed -wa -wb > IntersectWithGenes.txt
+cat IntersectWithGenes.txt  | cut -f8 | cut -d '|' -f2,3 | sort | uniq | wc -l
+
+### 16
+ncbi-blast-2.11.0+/bin/blastn -query chrM.fa -db blastdb/Chromosomes -out Align_Whole_chrM.txt -task blastn -num_alignments 100000000 -outfmt '6 qaccver qlen saccver pident length mismatch gapopen qstart qend sstart send evalue'
+cat Align_Whole_chrM.txt | awk '$4>80'  | awk '$5>=100' | awk '$3!="chrM"' | wc -l
 
 
-### Step 3 | Disambiguate and rcount how many unique COSMIC mutations overlap each gene
-
-cat BI.Genes.Cosmic.txt | cut -f 4,8 | sort | uniq | cut -f1 | sort | uniq -c | sort -n | tail
-
-### output:
-###    3246 ENSG00000069188|SDK2
-###    3359 ENSG00000154240|CEP112
-###    3368 ENSG00000141564|RPTOR
-###    4004 ENSG00000187775|DNAH17
-###    4160 ENSG00000141376|BCAS3
-###    5030 ENSG00000141510|TP53
-###    5155 ENSG00000154975|CA10
-###    5434 ENSG00000196712|NF1
-###    5635 ENSG00000007174|DNAH9
-###    9979 ENSG00000108684|ASIC2
 
 
 
