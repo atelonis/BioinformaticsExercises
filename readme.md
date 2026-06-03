@@ -32,6 +32,7 @@ The command can be something like 'wc' (for Word Count), argument(s) are used to
 
 
 Installation instructions: https://gist.github.com/panayiotis/ef4937823629a926d4abf632b705b1b5
+Installation using conda: https://gist.github.com/panayiotis/b8e42f5852d1cb9337c322db6cf19736
 
 
 
