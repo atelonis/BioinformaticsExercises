@@ -222,7 +222,9 @@ Look at columns 10 (alignment start) and at columns 11 (alignment end). What doe
 10) Create a bed file with for the full alignments on the positive strand of chromosome 1 with more than 75% sequence similarity. (Hints: use awk to print the fields in the order you want them, e.g. awk '{print $10,$2,$4}' and then use tr to convert the spaces " " to tabs "\t" . The final file should contain 14 lines).
 
 11) Use bedtools to intersect with nuclear tRNA coordinates
+```
 bedtools2/bin/bedtools intersect -a onChr1.bed -b nuclear_tRNAs.bed.txt -wa -wb > IntersectWithNuclear.txt
+```
 Read more: https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html
 Are all identified alignments reported as "nm-tRNA" (=nuclear-encoded mitochondrial tRNA)? 
 
@@ -230,11 +232,15 @@ Are all identified alignments reported as "nm-tRNA" (=nuclear-encoded mitochondr
 Read more: https://bedtools.readthedocs.io/en/latest/content/tools/merge.html
 
 13) Merge the above output file so that tRNAs and alignments within 5000 base pairs are combined. Make bedtools to report which tRNAs/alignments are in each segment.
+```
 bedtools2/bin/bedtools merge -d 5000 -i forMerging.bed -c 4 -o collapse > Merged.txt
+```
 How many of the reported segments contain at least one alignment?
 
 14) Cluster the output of Question 12, i.e. do not merge the reported areas but report the grouping of the tRNAs in clusters
+```
 bedtools2/bin/bedtools cluster -d 5000 -i forMerging.bed > Clustered.bed
+```
 Read more: https://bedtools.readthedocs.io/en/latest/content/tools/cluster.html
 How many distinct clusters are there? Which cluster has the most tRNAs? Which cluster has the most mitochondrial tRNAs?
 
