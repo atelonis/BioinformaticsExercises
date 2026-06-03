@@ -182,18 +182,23 @@ To instal bedtools: https://bedtools.readthedocs.io/en/latest/content/installati
 For this exercise, you will not be doing a lot of coding as you did for the previous one. You will need to look at the manuals and links to understand how commands and arguments work. 
 
 1) Combine chromosomes into one file named Chromosomes.fa
+```
 cat chr1.fa chr6.fa chrM.fa > Chromosomes.fa
+```
 
 2) Create a directory names 'blastdb'
 mkdir blastdb
 
 3) Make Blastn databases
 
+```
 makeblastdb -dbtype nucl -in Chromosomes.fa -out blastdb/Chromosomes
-
+```
 
 4) Use blastn to align mitochondrial tRNA sequences on the three chromosomes
+```
 blastn -query mart_export_tRNAs.txt -db blastdb/Chromosomes -out Align_Mt_tRNAgenes.txt -task blastn -num_alignments 100000000 -outfmt '6 qaccver qlen saccver pident length mismatch gapopen qstart qend sstart send evalue'
+```
 
 https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.options_common_to_all_blast/
 
@@ -240,24 +245,6 @@ The above commands should have prepared you to run the below by yourself
 16) Align the whole mitochondrial genome on the chromosomes. How many alignments do you get with more than 80% sequence similarity and at least 100 bases in length? (Answer is 21)
 
 
-
-
-# **Extra Exercise**
-
-Our goal is to intersect the coordinates of COSMIC mutations with genes. For simplicity, we will focus on chromosome 17. From UCSC Genome Browser, Table Browser, we have downloaded the bed file with the COSMIC information. To get this, run:
-
-```
-wget https://github.com/atelonis/BioinformaticsExercises/blob/main/cosmicMuts_chr17.bed.gz
-```
-
-or
-
-```
-curl -O -L https://github.com/atelonis/BioinformaticsExercises/blob/main/cosmicMuts_chr17.bed.gz -o cosmicMuts_chr17.bed.gz
-```
-
-
-Now, find which coding gene overlaps with the most COSMIC entries.
 
 #
 _Aristeidis Telonis_
