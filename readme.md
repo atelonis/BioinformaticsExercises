@@ -223,7 +223,7 @@ Look at columns 10 (alignment start) and at columns 11 (alignment end). What doe
 
 11) Use bedtools to intersect with nuclear tRNA coordinates
 ```
-bedtools2/bin/bedtools intersect -a onChr1.bed -b nuclear_tRNAs.bed.txt -wa -wb > IntersectWithNuclear.txt
+bedtools intersect -a onChr1.bed -b nuclear_tRNAs.bed.txt -wa -wb > IntersectWithNuclear.txt
 ```
 Read more: https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html
 Are all identified alignments reported as "nm-tRNA" (=nuclear-encoded mitochondrial tRNA)? 
@@ -233,19 +233,18 @@ Read more: https://bedtools.readthedocs.io/en/latest/content/tools/merge.html
 
 13) Merge the above output file so that tRNAs and alignments within 5000 base pairs are combined. Make bedtools to report which tRNAs/alignments are in each segment.
 ```
-bedtools2/bin/bedtools merge -d 5000 -i forMerging.bed -c 4 -o collapse > Merged.txt
+bedtools merge -d 5000 -i forMerging.bed -c 4 -o collapse > Merged.txt
 ```
 How many of the reported segments contain at least one alignment?
 
 14) Cluster the output of Question 12, i.e. do not merge the reported areas but report the grouping of the tRNAs in clusters
 ```
-bedtools2/bin/bedtools cluster -d 5000 -i forMerging.bed > Clustered.bed
+bedtools cluster -d 5000 -i forMerging.bed > Clustered.bed
 ```
 Read more: https://bedtools.readthedocs.io/en/latest/content/tools/cluster.html
 How many distinct clusters are there? Which cluster has the most tRNAs? Which cluster has the most mitochondrial tRNAs?
 
 
-The above commands should have prepared you to run the below by yourself
 15) Create a bed file with the transcripts and intersect it with the tRNA alignments. How many genes overlap with the alignments? (Answer is 4).
 
 16) Align the whole mitochondrial genome on the chromosomes. How many alignments do you get with more than 80% sequence similarity and at least 100 bases in length? (Answer is 21)
