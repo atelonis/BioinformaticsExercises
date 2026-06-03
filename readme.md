@@ -47,7 +47,7 @@ wget https://github.com/atelonis/BioinformaticsExercises/blob/main/mart_export.t
 or
 
 ```
-curl -O -L https://github.com/atelonis/BioinformaticsExercises/blob/main/mart_export.txt.gz -o mart_export.txt.gz
+curl -O -L https://github.com/atelonis/BioinformaticsExercises/raw/refs/heads/main/mart_export.txt.gz -o mart_export.txt.gz
 ```
 
 
