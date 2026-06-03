@@ -187,7 +187,9 @@ cat chr1.fa chr6.fa chrM.fa > Chromosomes.fa
 ```
 
 2) Create a directory names 'blastdb'
+```
 mkdir blastdb
+```
 
 3) Make Blastn databases
 
