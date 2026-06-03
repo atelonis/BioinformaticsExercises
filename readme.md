@@ -188,12 +188,15 @@ cat chr1.fa chr6.fa chrM.fa > Chromosomes.fa
 mkdir blastdb
 
 3) Make Blastn databases
-ncbi-blast-2.11.0+/bin/makeblastdb -dbtype nucl -in Chromosomes.fa -out blastdb/Chromosomes
+
+makeblastdb -dbtype nucl -in Chromosomes.fa -out blastdb/Chromosomes
+
 
 4) Use blastn to align mitochondrial tRNA sequences on the three chromosomes
 blastn -query mart_export_tRNAs.txt -db blastdb/Chromosomes -out Align_Mt_tRNAgenes.txt -task blastn -num_alignments 100000000 -outfmt '6 qaccver qlen saccver pident length mismatch gapopen qstart qend sstart send evalue'
 
 https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.options_common_to_all_blast/
+
 
 
 Now, using the unix commands we learned on Exercise 1, let's mine the alignments
