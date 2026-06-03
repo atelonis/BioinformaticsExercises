@@ -31,6 +31,10 @@ _ii)_ The general syntax in bash is:
 The command can be something like 'wc' (for Word Count), argument(s) are used to tell the command to do something specific (e.g. count only the lines) or to specify something (e.g. the desired column). So, let's get right to it with our first tasks:
 
 
+Installation instructions: https://gist.github.com/panayiotis/ef4937823629a926d4abf632b705b1b5
+
+
+
 # **EXERCISE 1**
 
 Download the file:
