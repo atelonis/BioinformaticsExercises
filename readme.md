@@ -173,9 +173,73 @@ where X is the transcript ID and Y is the length
 
 Congratulations! If you made it through all commands, then you are an advanced linux user!
 
-
-
 # **Exercise 2**
+
+To install blastn: https://ftp.ncbi.nlm.nih.gov/blast/executables/LATEST/
+
+To instal bedtools: https://bedtools.readthedocs.io/en/latest/content/installation.html
+
+For this exercise, you will not be doing a lot of coding as you did for the previous one. You will need to look at the manuals and links to understand how commands and arguments work. 
+
+1) Combine chromosomes into one file named Chromosomes.fa
+cat chr1.fa chr6.fa chrM.fa > Chromosomes.fa
+
+2) Create a directory names 'blastdb'
+mkdir blastdb
+
+3) Make Blastn databases
+ncbi-blast-2.11.0+/bin/makeblastdb -dbtype nucl -in Chromosomes.fa -out blastdb/Chromosomes
+
+4) Use blastn to align mitochondrial tRNA sequences on the three chromosomes
+blastn -query mart_export_tRNAs.txt -db blastdb/Chromosomes -out Align_Mt_tRNAgenes.txt -task blastn -num_alignments 100000000 -outfmt '6 qaccver qlen saccver pident length mismatch gapopen qstart qend sstart send evalue'
+
+https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.options_common_to_all_blast/
+
+
+Now, using the unix commands we learned on Exercise 1, let's mine the alignments
+5) How many total alignments did blastn return?
+
+6) How many alignments are on each chromosome?
+
+7) How many alignments have more than 90% percentage of identical matches? (hint: 4th column, answer is 257)
+
+8) How many of the above alignments are full alignments? I.e. the alignment matches the length of the query (or up to two nucleotide difference)
+Sort the alignments by chromosome (hint: sort -k3)
+Comment on the alignments
+
+9) Get the full alignments with more than 75% sequence similarity on chromosome 1 and sort numerically by starting position (column 10). (Hint: sort -k10n)
+What do you observe?
+Look at columns 10 (alignment start) and at columns 11 (alignment end). What does it mean when the start is greater than the end?
+
+10) Create a bed file with for the full alignments on the positive strand of chromosome 1 with more than 75% sequence similarity. (Hints: use awk to print the fields in the order you want them, e.g. awk '{print $10,$2,$4}' and then use tr to convert the spaces " " to tabs "\t" . The final file should contain 14 lines).
+
+11) Use bedtools to intersect with nuclear tRNA coordinates
+bedtools2/bin/bedtools intersect -a onChr1.bed -b nuclear_tRNAs.bed.txt -wa -wb > IntersectWithNuclear.txt
+Read more: https://bedtools.readthedocs.io/en/latest/content/tools/intersect.html
+Are all identified alignments reported as "nm-tRNA" (=nuclear-encoded mitochondrial tRNA)? 
+
+12) Combine the full alignments on chromosome 1 with the nuclear tRNA file on chromosome one, get the first for columns and sort the file for using the "merge" function of bedtools. Save the output to a file.
+Read more: https://bedtools.readthedocs.io/en/latest/content/tools/merge.html
+
+13) Merge the above output file so that tRNAs and alignments within 5000 base pairs are combined. Make bedtools to report which tRNAs/alignments are in each segment.
+bedtools2/bin/bedtools merge -d 5000 -i forMerging.bed -c 4 -o collapse > Merged.txt
+How many of the reported segments contain at least one alignment?
+
+14) Cluster the output of Question 12, i.e. do not merge the reported areas but report the grouping of the tRNAs in clusters
+bedtools2/bin/bedtools cluster -d 5000 -i forMerging.bed > Clustered.bed
+Read more: https://bedtools.readthedocs.io/en/latest/content/tools/cluster.html
+How many distinct clusters are there? Which cluster has the most tRNAs? Which cluster has the most mitochondrial tRNAs?
+
+
+The above commands should have prepared you to run the below by yourself
+15) Create a bed file with the transcripts and intersect it with the tRNA alignments. How many genes overlap with the alignments? (Answer is 4).
+
+16) Align the whole mitochondrial genome on the chromosomes. How many alignments do you get with more than 80% sequence similarity and at least 100 bases in length? (Answer is 21)
+
+
+
+
+# **Extra Exercise**
 
 Our goal is to intersect the coordinates of COSMIC mutations with genes. For simplicity, we will focus on chromosome 17. From UCSC Genome Browser, Table Browser, we have downloaded the bed file with the COSMIC information. To get this, run:
 
