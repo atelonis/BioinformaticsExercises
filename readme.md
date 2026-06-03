@@ -210,6 +210,11 @@ blastn -query mart_export_tRNAs.txt -db blastdb/Chromosomes -out Align_Mt_tRNAge
 
 https://www.ncbi.nlm.nih.gov/books/NBK279684/table/appendices.T.options_common_to_all_blast/
 
+Get the blast output file and the coordinates of nuclear tRNAs:
+```
+curl -L -O https://github.com/atelonis/BioinformaticsExercises/raw/refs/heads/main/Align_Mt_tRNAgenes.txt
+curl -L -O https://github.com/atelonis/BioinformaticsExercises/raw/refs/heads/main/nuclear_tRNAs.bed.txt
+```
 
 
 Now, using the unix commands we learned on Exercise 1, let's mine the alignments
