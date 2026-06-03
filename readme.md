@@ -290,6 +290,15 @@ cat StarMapping/BRCA_ERpositive.RSEM.genes.results | cut -f1,7 | awk '$2>=1' | w
 cat StarMapping/BRCA_ERnegative.RSEM.genes.results | cut -f1,7 | awk '$2>=1' | wc -l
 ```
 
+Get the RSEM output files:
+```
+curl -L -O https://github.com/atelonis/BioinformaticsExercises/raw/refs/heads/main/BRCA_ERnegative.RSEM.genes.results
+curl -L -O https://github.com/atelonis/BioinformaticsExercises/raw/refs/heads/main/BRCA_ERpositive.RSEM.genes.results
+curl -L -O https://github.com/atelonis/BioinformaticsExercises/raw/refs/heads/main/BRCA_ERnegative.RSEM.isoforms.results
+curl -L -O https://github.com/atelonis/BioinformaticsExercises/raw/refs/heads/main/BRCA_ERpositive.RSEM.isoforms.results
+```
+
+
 (5) Which are the top 10 most expressed gene in each sample?
 
 (6) How many genes have zero expression in each sample?
