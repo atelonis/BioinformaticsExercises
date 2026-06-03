@@ -251,6 +251,56 @@ How many distinct clusters are there? Which cluster has the most tRNAs? Which cl
 
 16) Align the whole mitochondrial genome on the chromosomes. How many alignments do you get with more than 80% sequence similarity and at least 100 bases in length? (Answer is 21)
 
+# **EXERCISE 3**
+(1) Index chromosome 6 for STAR and RSEM:
+```
+STAR --runMode genomeGenerate --genomeDir ForSTAR/ --genomeFastaFiles chr6.fa --sjdbGTFfile HomoSapiens.Chr6.gtf --sjdbOverhang 100
+rsem-prepare-reference --gtf HomoSapiens.Chr6.gtf chr6.fa ForRSEM/human_chr6
+```
+
+(2) Use STAR to map the two fastq files on the genome (chromosome 6):
+```
+STAR --runThreadN 10 --genomeDir ForSTAR/ --readFilesIn BRCA_ERpositive.fastq --outFileNamePrefix StarMapping/BRCA_ERpositive. --quantMode TranscriptomeSAM
+STAR --runThreadN 10 --genomeDir ForSTAR/ --readFilesIn BRCA_ERnegative.fastq --outFileNamePrefix StarMapping/BRCA_ERnegative. --quantMode TranscriptomeSAM
+```
+
+(3) Quantify transcript expression with RSEM:
+```
+rsem-calculate-expression --bam StarMapping/BRCA_ERpositive.Aligned.toTranscriptome.out.bam ForRSEM/human_chr6 StarMapping/BRCA_ERpositive.RSEM
+rsem-calculate-expression --bam StarMapping/BRCA_ERnegative.Aligned.toTranscriptome.out.bam ForRSEM/human_chr6 StarMapping/BRCA_ERnegative.RSEM
+```
+
+(4) In the StarMapping directory, there should two files that contain the gene counts:
+StarMapping/BRCA_ERpositive.RSEM.genes.results
+StarMapping/BRCA_ERnegative.RSEM.genes.results
+These files contain the unnormazlized and normalized gene counts. Using just the number of reads mapped on each gene leads to erroneous results for two main reasons: longer genes get more reads, a higher sequencing depth (sequencing more RNA fragments) leads to more reads. So we have to normalize for gene length and sequencing depth. RSEM does that automatically and puts the normalized value in column "FPKM". FPKM stands for Fragments (i.e. sequencing reads) Per Kilobase (of gene length) per Million (of sequenced reads). Can you count how many genes have at least 1 FPKM in the files above?
+```
+cat StarMapping/BRCA_ERpositive.RSEM.genes.results | cut -f1,7 | awk '$2>=1' | wc -l
+cat StarMapping/BRCA_ERnegative.RSEM.genes.results | cut -f1,7 | awk '$2>=1' | wc -l
+```
+
+(5) Which are the top 10 most expressed gene in each sample?
+
+(6) How many genes have zero expression in each sample?
+
+(7) How many genes have at least one FPKM in both samples? (hint: use paste)
+
+(8) What is the gene with the highest expression change between the ER-positive and ER-negative sample? (highest fold change in ER-positive as compared to the ER-negative sample)
+
+(9) Same as above, but now find the gene with the gene with the highest expression change in the opposite comparison (i.e. highest fold change in ER-negative as compared to the ER-positive sample)
+
+(10) Let's look at the files containing the transcript variants:
+```
+StarMapping/BRCA_ERnegative.RSEM.isoforms.results
+StarMapping/BRCA_ERpositive.RSEM.isoforms.results
+```
+Which transcript is the highest expressed in each sample?
+
+(11) Get the isoforms for the VEGFA gene, which is mostly expressed in each sample? Which of the VEGFA transcript variants is mostly changing (as a % of all VEGFA isoforms) between the two samples?
+
+(12) Analyze the isoforms of RPS18 the same way as in Question 11. What do you observe?
+
+
 
 
 #
